@@ -4,56 +4,201 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>売上・送金フォーム</title>
+
+  <!-- STUDIO寄りのフォント（近似） -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+
   <style>
-    :root { --w: 375px; }
-    body { margin: 0; font-family: system-ui, -apple-system, "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif; background:#fff; }
-    .wrap { max-width: var(--w); margin: 0 auto; padding: 14px 12px 24px; }
-    h1 { font-size: 16px; margin: 0 0 10px; }
-    .card { border: 1px solid #e5e5e5; border-radius: 12px; padding: 12px; }
-    .row { display: grid; grid-template-columns: 1fr; gap: 8px; margin-bottom: 10px; }
-    label { font-size: 12px; color: #333; }
-    input, select, textarea, button {
-      width: 100%; box-sizing: border-box; font-size: 14px;
-      padding: 10px 10px; border: 1px solid #d9d9d9; border-radius: 10px;
-      background: #fff;
+    :root{
+      /* ここを調整すると一気に似せやすい */
+      --page-bg: #f6f7f8;
+      --card-bg: #ffffff;
+      --text: #111827;
+      --muted: #6b7280;
+      --border: rgba(17,24,39,.12);
+      --input-bg: #ffffff;
+      --input-border: rgba(17,24,39,.18);
+      --focus: rgba(59,130,246,.25);
+
+      --radius-card: 20px;
+      --radius-input: 14px;
+      --radius-btn: 16px;
+
+      --shadow-card: 0 12px 40px rgba(17,24,39,.10);
+      --shadow-input: 0 1px 0 rgba(17,24,39,.06);
+
+      --w: 375px;
     }
-    textarea { min-height: 70px; resize: vertical; }
-    .btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-    .btns.one { grid-template-columns: 1fr; }
-    button { border: none; border-radius: 12px; padding: 12px 10px; font-weight: 700; cursor: pointer; }
-    .primary { background: #111; color: #fff; }
-    .ghost { background: #f2f2f2; color:#111; }
-    .muted { color:#666; font-size:12px; }
-    .secTitle { font-size: 13px; font-weight: 800; margin: 10px 0 6px; }
-    .kvs { font-size: 13px; line-height: 1.35; }
-    .kvs .line { display:flex; justify-content: space-between; gap: 10px; padding: 4px 0; border-bottom: 1px dashed #eee; }
-    .kvs .line:last-child { border-bottom: 0; }
-    .mono { font-variant-numeric: tabular-nums; }
-    .hide { display:none; }
-    .ok { background:#f7fff7; border:1px solid #cfe9cf; }
-    .err { background:#fff7f7; border:1px solid #f0caca; }
+
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      color:var(--text);
+      background: var(--page-bg);
+      font-family: Inter, "Noto Sans JP", system-ui, -apple-system, "Hiragino Kaku Gothic ProN", sans-serif;
+    }
+
+    .wrap{
+      max-width: var(--w);
+      margin: 0 auto;
+      padding: 16px 14px 24px;
+    }
+
+    .title{
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: .2px;
+      margin: 6px 2px 12px;
+    }
+
+    .card{
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-card);
+      padding: 14px;
+    }
+
+    .section{
+      margin-top: 12px;
+    }
+    .section:first-child{ margin-top: 0; }
+
+    .secTitle{
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: .4px;
+      margin: 10px 2px 8px;
+      text-transform: none;
+    }
+
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      margin-bottom: 10px;
+    }
+
+    label{
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(17,24,39,.82);
+    }
+
+    input, select, textarea{
+      width:100%;
+      box-sizing:border-box;
+      font-size: 14px;
+      padding: 11px 12px;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: var(--radius-input);
+      box-shadow: var(--shadow-input);
+      outline: none;
+    }
+
+    input:focus, select:focus, textarea:focus{
+      border-color: rgba(59,130,246,.55);
+      box-shadow: 0 0 0 4px var(--focus);
+    }
+
+    textarea{
+      min-height: 78px;
+      resize: vertical;
+    }
+
+    .helper{
+      font-size: 12px;
+      color: var(--muted);
+      margin: 6px 2px 0;
+      line-height: 1.4;
+    }
+
+    .btns{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .btns.one{ grid-template-columns: 1fr; }
+
+    button{
+      width:100%;
+      border: 0;
+      border-radius: var(--radius-btn);
+      padding: 12px 12px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor:pointer;
+    }
+    .primary{
+      background: #111827;
+      color: #fff;
+      box-shadow: 0 10px 24px rgba(17,24,39,.22);
+    }
+    .ghost{
+      background: rgba(17,24,39,.06);
+      color: #111827;
+    }
+
+    .hide{ display:none; }
+
+    /* 確認画面（スクショ1枚に収めるため密度高め） */
+    .kvs{ margin-top: 6px; }
+    .line{
+      display:flex;
+      justify-content:space-between;
+      gap: 10px;
+      padding: 6px 0;
+      border-bottom: 1px dashed rgba(17,24,39,.10);
+      font-size: 13px;
+    }
+    .line:last-child{ border-bottom:0; }
+    .mono{ font-variant-numeric: tabular-nums; }
+    .ellipsis2{
+      text-align:right;
+      overflow:hidden;
+      display:-webkit-box;
+      -webkit-line-clamp:2;
+      -webkit-box-orient:vertical;
+    }
+
+    .msg{
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      font-size: 13px;
+      line-height: 1.4;
+      border: 1px solid rgba(17,24,39,.12);
+      background: rgba(255,255,255,.75);
+    }
+    .ok{ border-color: rgba(34,197,94,.25); background: rgba(34,197,94,.07); }
+    .err{ border-color: rgba(239,68,68,.25); background: rgba(239,68,68,.06); }
   </style>
 </head>
 
 <body>
   <div class="wrap">
-    <h1>売上・送金フォーム</h1>
+    <div class="title">売上・送金フォーム</div>
 
-    <!-- 入力画面 -->
+    <!-- 入力 -->
     <div id="stepInput" class="card">
-      <div class="row">
+      <div class="field">
         <label>氏名</label>
-        <input id="name" autocomplete="name" placeholder="例：しゅん" required />
+        <input id="name" autocomplete="name" placeholder="例：しゅん" />
       </div>
 
-      <div class="row">
+      <div class="field">
         <label>売上日</label>
-        <input id="salesDate" type="date" required />
+        <input id="salesDate" type="date" />
       </div>
 
-      <div class="row">
+      <div class="field">
         <label>🍺 売上店舗</label>
-        <select id="store" required>
+        <select id="store">
           <option value="" selected>選択してください</option>
           <option>ロカロ</option>
           <option>イーエックス</option>
@@ -64,65 +209,36 @@
       </div>
 
       <div class="secTitle">💹 売上</div>
-      <div class="row">
-        <label>現金</label>
-        <input id="salesCash" inputmode="numeric" placeholder="例：10000" />
-      </div>
-      <div class="row">
-        <label>売掛金/クレカ</label>
-        <input id="salesCredit" inputmode="numeric" placeholder="例：8000" />
-      </div>
-      <div class="row">
-        <label>売掛金/QR</label>
-        <input id="salesQR" inputmode="numeric" placeholder="例：2000" />
-      </div>
+      <div class="field"><label>現金</label><input id="salesCash" inputmode="numeric" placeholder="例：10000" /></div>
+      <div class="field"><label>売掛金/クレカ</label><input id="salesCredit" inputmode="numeric" placeholder="例：8000" /></div>
+      <div class="field"><label>売掛金/QR</label><input id="salesQR" inputmode="numeric" placeholder="例：2000" /></div>
 
       <div class="secTitle">👛 経費</div>
-      <div class="row">
-        <label>現金</label>
-        <input id="expCash" inputmode="numeric" placeholder="例：1200" />
-      </div>
-      <div class="row">
-        <label>UPSIDERカード</label>
-        <input id="expUpsider" inputmode="numeric" placeholder="例：3000" />
-      </div>
-      <div class="row">
-        <label>三井住友カード</label>
-        <input id="expSMBC" inputmode="numeric" placeholder="例：0" />
-      </div>
+      <div class="field"><label>現金</label><input id="expCash" inputmode="numeric" placeholder="例：1200" /></div>
+      <div class="field"><label>UPSIDERカード</label><input id="expUpsider" inputmode="numeric" placeholder="例：3000" /></div>
+      <div class="field"><label>三井住友カード</label><input id="expSMBC" inputmode="numeric" placeholder="例：0" /></div>
 
       <div class="secTitle">🏦 送金</div>
-      <div class="row">
-        <label>送金額</label>
-        <input id="transferAmount" inputmode="numeric" placeholder="例：15800" />
-      </div>
-      <div class="row">
-        <label>送金日</label>
-        <input id="transferDate" type="date" />
-      </div>
-      <div class="row">
-        <label>送金先</label>
-        <input id="transferTo" placeholder="例：GMOあおぞら" />
-      </div>
-      <div class="row">
-        <label>送金申請額（不足金が発生した場合）</label>
-        <input id="shortageRequest" inputmode="numeric" placeholder="例：2000（なければ空欄）" />
-      </div>
+      <div class="field"><label>送金額</label><input id="transferAmount" inputmode="numeric" placeholder="例：15800" /></div>
+      <div class="field"><label>送金日</label><input id="transferDate" type="date" /></div>
+      <div class="field"><label>送金先</label><input id="transferTo" placeholder="例：GMOあおぞら" /></div>
+      <div class="field"><label>送金申請額（不足金が発生した場合）</label><input id="shortageRequest" inputmode="numeric" placeholder="例：2000（なければ空欄）" /></div>
 
-      <div class="row">
+      <div class="field">
         <label>備考欄</label>
         <textarea id="note" placeholder="例：氷代を経費で精算"></textarea>
       </div>
 
-      <p class="muted">※ 送信前に確認画面が表示されます（スクショ1枚想定）</p>
+      <div class="helper">送信前に確認画面が表示されます（スクショ1枚想定）</div>
+
       <div class="btns one">
         <button class="primary" id="toConfirm">確認画面へ</button>
       </div>
 
-      <div id="inputMsg" class="hide"></div>
+      <div id="inputMsg" class="msg hide"></div>
     </div>
 
-    <!-- 確認画面 -->
+    <!-- 確認 -->
     <div id="stepConfirm" class="card hide">
       <div class="secTitle">【確認】</div>
       <div class="kvs">
@@ -151,11 +267,7 @@
         <div class="line"><span>送金日</span><span class="mono" id="c_transferDate"></span></div>
         <div class="line"><span>送金先</span><span id="c_transferTo"></span></div>
         <div class="line" id="c_shortageRow"><span>不足金申請</span><span class="mono" id="c_shortageRequest"></span></div>
-      </div>
-
-      <div class="secTitle">備考</div>
-      <div class="kvs">
-        <div class="line"><span style="white-space:nowrap;">備考</span><span id="c_note" style="text-align:right; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;"></span></div>
+        <div class="line"><span>備考</span><span class="ellipsis2" id="c_note"></span></div>
       </div>
 
       <div class="btns">
@@ -163,15 +275,13 @@
         <button class="primary" id="submitBtn">送信する</button>
       </div>
 
-      <div id="confirmMsg" class="hide"></div>
+      <div id="confirmMsg" class="msg hide"></div>
     </div>
   </div>
 
 <script>
   // ========= 設定 =========
-  // GAS Web App のURL（後で差し替え）
   const API_URL = "PASTE_YOUR_GAS_WEBAPP_URL_HERE";
-  // 簡易トークン（GAS側と合わせる。公開フォーム対策の最低限）
   const API_TOKEN = "CHANGE_ME_TOKEN";
 
   // ========= ユーティリティ =========
@@ -182,24 +292,21 @@
     if (s === "" || s === "-") return 0;
     return Number(s);
   };
-  const fmtDate = (v) => v ? v : "";
-
   const el = (id) => document.getElementById(id);
 
   function showMsg(target, ok, text){
-    target.className = ok ? "card ok" : "card err";
-    target.style.marginTop = "10px";
-    target.innerText = text;
-    target.classList.remove("hide");
+    target.classList.remove("hide","ok","err");
+    target.classList.add(ok ? "ok" : "err");
+    target.textContent = text;
   }
-
   function hideMsg(target){
     target.classList.add("hide");
-    target.innerText = "";
+    target.textContent = "";
+    target.classList.remove("ok","err");
   }
 
   function collect(){
-    const data = {
+    return {
       name: el("name").value.trim(),
       salesDate: el("salesDate").value,
       store: el("store").value,
@@ -219,22 +326,18 @@
 
       note: el("note").value.trim()
     };
-
-    // 本フォームの送信タイミング：GAS側で付与（サーバ時刻）
-    return data;
   }
 
   function validate(d){
     if (!d.name) return "氏名を入力してください";
     if (!d.salesDate) return "売上日を選択してください";
     if (!d.store) return "売上店舗を選択してください";
-    // 数字は0許容（空欄=0）でOKにしておく
     return null;
   }
 
   function fillConfirm(d){
     el("c_name").innerText = d.name;
-    el("c_salesDate").innerText = fmtDate(d.salesDate);
+    el("c_salesDate").innerText = d.salesDate || "—";
     el("c_store").innerText = d.store;
 
     el("c_salesCash").innerText = yen(d.salesCash);
@@ -246,10 +349,10 @@
     el("c_expSMBC").innerText = yen(d.expSMBC);
 
     el("c_transferAmount").innerText = yen(d.transferAmount);
-    el("c_transferDate").innerText = fmtDate(d.transferDate);
+    el("c_transferDate").innerText = d.transferDate || "—";
     el("c_transferTo").innerText = d.transferTo || "—";
 
-    if (d.shortageRequest && d.shortageRequest !== 0){
+    if (d.shortageRequest){
       el("c_shortageRow").style.display = "flex";
       el("c_shortageRequest").innerText = yen(d.shortageRequest);
     } else {
@@ -265,10 +368,8 @@
     const err = validate(d);
     const msg = el("inputMsg");
     hideMsg(msg);
-    if (err){
-      showMsg(msg, false, err);
-      return;
-    }
+    if (err) return showMsg(msg, false, err);
+
     fillConfirm(d);
     el("stepInput").classList.add("hide");
     el("stepConfirm").classList.remove("hide");
@@ -285,36 +386,32 @@
     const err = validate(d);
     const msg = el("confirmMsg");
     hideMsg(msg);
-    if (err){
-      showMsg(msg, false, err);
-      return;
-    }
+    if (err) return showMsg(msg, false, err);
+
     if (!API_URL || API_URL.includes("PASTE_YOUR_GAS_WEBAPP_URL_HERE")){
-      showMsg(msg, false, "API_URL が未設定です（GAS Web App URL を貼ってください）");
-      return;
+      return showMsg(msg, false, "API_URL が未設定です（GAS Web App URL を貼ってください）");
     }
 
-    el("submitBtn").disabled = true;
-    el("submitBtn").innerText = "送信中…";
+    const btn = el("submitBtn");
+    btn.disabled = true;
+    const prev = btn.textContent;
+    btn.textContent = "送信中…";
 
-    try {
+    try{
       const res = await fetch(API_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {"Content-Type":"application/json"},
         body: JSON.stringify({ token: API_TOKEN, data: d })
       });
       const json = await res.json().catch(()=> ({}));
-      if (!res.ok || json.ok !== true){
-        throw new Error(json.error || "送信に失敗しました");
-      }
+      if (!res.ok || json.ok !== true) throw new Error(json.error || "送信に失敗しました");
+
       showMsg(msg, true, "送信完了しました。ありがとうございました。");
-      // 連投防止：入力画面をクリアしたい場合はここで reset
-      // location.reload();
-    } catch(e){
+    }catch(e){
       showMsg(msg, false, "エラー： " + e.message);
-    } finally {
-      el("submitBtn").disabled = false;
-      el("submitBtn").innerText = "送信する";
+    }finally{
+      btn.disabled = false;
+      btn.textContent = prev;
     }
   }
 
