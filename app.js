@@ -154,8 +154,8 @@ async function submit(){
   const prev = btn.textContent;
   btn.textContent = "送信中…";
 
-  try{
-        // JSONはやめて、フォーム形式でPOST（GASで一番通りやすい）
+  try {
+    // フォーム形式でPOST（GASで一番通りやすい）
     const params = new URLSearchParams();
 
     // 認証
@@ -164,7 +164,7 @@ async function submit(){
     // データ（GAS側 parseRequest_ が拾えるキー名で送る）
     params.set("applicationType", d.applicationType);
     params.set("name", d.name);
-    params.set("salesDate", d.salesDay);      // ←GASは salesDate を見る想定
+    params.set("salesDate", d.salesDay);
     params.set("store", d.store);
 
     params.set("transferAmount", d.transferAmount);
@@ -188,23 +188,27 @@ async function submit(){
       // headers不要（ブラウザが自動で application/x-www-form-urlencoded を付ける）
     });
 
+    // レスポンスは必ずJSONで返す（GAS側をそうしている前提）
     const text = await res.text();
-    let json;
+    let json = {};
     try {
       json = JSON.parse(text);
     } catch {
       throw new Error("GASがJSONを返していません: " + text.slice(0, 200));
     }
-    if (!res.ok || json.ok !== true) throw new Error(json.error || "送信に失敗しました");
 
+    if (!res.ok || json.ok !== true) {
+      throw new Error(json.error || "送信に失敗しました");
+    }
 
     show(msg, "送信完了しました。", false);
 
-    document.querySelector("form")?.reset?.(); // formタグがある場合
-    
-  }catch(e){
+    // 送信後のクリア（必要なら）
+    if (typeof resetForm === "function") resetForm();
+
+  } catch (e) {
     show(msg, "エラー：" + e.message, true);
-  }finally{
+  } finally {
     btn.disabled = false;
     btn.textContent = prev;
   }
