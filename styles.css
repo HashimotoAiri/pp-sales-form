@@ -48,7 +48,7 @@ body{
   align-items: center;
   gap: 6px;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 12px;
   margin: 10px 0 8px;
 }
 .req{ color: var(--req); font-weight: 900; }
@@ -98,11 +98,10 @@ textarea{ min-height: 140px; resize: vertical; }
 }
 
 .field{ margin-bottom: 2px; }
-.stack{ display:flex; flex-direction:column; gap: 12px; }
+.stack{ display:flex; flex-direction:column; }
 
 /* 売上店舗のラジオリスト */
 .radioList{
-  border: 1px solid var(--inputBorder);
   border-radius: 10px;
   overflow: hidden;
   background: #fff;
@@ -111,19 +110,18 @@ textarea{ min-height: 140px; resize: vertical; }
   display:flex;
   align-items:center;
   gap: 10px;
-  padding: 10px 12px;
-  border-bottom: 1px solid #eee;
+  padding: 4px 0px;
   cursor: pointer;
 }
 .radioRow:last-child{ border-bottom: none; }
 .radioRow input{
-  width: 18px;
-  height: 18px;
+  width: 13px;
+  height: 13px;
   margin: 0;
 }
 .radioText{
   font-weight: 800;
-  font-size: 18px;
+  font-size: 13px;
 }
 .radioRow.isSelected{
   background: #f2f2f2; /* 選択行の薄グレー */
