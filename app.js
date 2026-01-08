@@ -1,6 +1,6 @@
 // ========= 設定 =========
 // ここをあなたのGASに合わせて差し替え
-const API_URL = "https://script.google.com/macros/s/AKfycbwrRW1pNNFtwDBguiEgdRZJNWXGlpLW1HeRz3OJpl5SRNCqIgCfMc_Wk1etkTC743cATA/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbynkZTNG_afdvKtPPW_MsHxUkpq79rB142lmgcAeonlL0EpuTZCUkmYKdMrOM4ZP4os0g/exec";
 const API_TOKEN = "ppsales_2026_Jan_9$A9fKx!";
 
 const $ = (id) => document.getElementById(id);
@@ -188,8 +188,15 @@ async function submit(){
       // headers不要（ブラウザが自動で application/x-www-form-urlencoded を付ける）
     });
 
-    const json = await res.json().catch(()=> ({}));
+    const text = await res.text();
+    let json;
+    try {
+      json = JSON.parse(text);
+    } catch {
+      throw new Error("GASがJSONを返していません: " + text.slice(0, 200));
+    }
     if (!res.ok || json.ok !== true) throw new Error(json.error || "送信に失敗しました");
+
 
     show(msg, "送信完了しました。", false);
 
