@@ -1,0 +1,210 @@
+/* iOSの入力フォーカスズーム対策：input等は16px以上にする */
+:root{
+  --bg: #f2f2f2;
+  --card: #ffffff;
+  --border: #e6e6e6;
+  --text: #222;
+  --muted: #888;
+  --req: #e53935;
+
+  --radius: 10px;
+  --radiusInput: 8px;
+  --shadow: none;
+
+  --inputBg: #fff;
+  --inputBorder: #e3e3e3;
+
+  --btn: #3a3a3a;     /* STUDIOスクショの濃いグレー寄り */
+  --btnText: #fff;
+
+  --gap: 14px;
+}
+
+*{ box-sizing: border-box; }
+html{ -webkit-text-size-adjust: 100%; }
+body{
+  margin:0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+}
+
+.page{
+  width: min(420px, 100%);
+  margin: 0 auto;
+  padding: 14px 12px 26px;
+}
+
+.card{
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 14px 18px;
+}
+
+/* label */
+.label{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 16px;
+  margin: 10px 0 8px;
+}
+.req{ color: var(--req); font-weight: 900; }
+
+/* inputs */
+input, select, textarea{
+  width: 100%;
+  background: var(--inputBg);
+  border: 1px solid var(--inputBorder);
+  border-radius: var(--radiusInput);
+  padding: 12px 12px;
+  font-size: 16px; /* ←ここがiOSズーム防止の本体 */
+  outline: none;
+}
+textarea{ min-height: 140px; resize: vertical; }
+::placeholder{ color: #cfcfcf; font-weight: 600; }
+
+.selectWrap{
+  position: relative;
+}
+.selectWrap select{
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 34px;
+}
+.chev{
+  position:absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color:#777;
+  pointer-events:none;
+}
+
+/* 2カラム（スクショに合わせてスマホでも2列のまま） */
+.grid2{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  align-items: start;
+}
+.grid2-top{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+.field{ margin-bottom: 2px; }
+.stack{ display:flex; flex-direction:column; gap: 12px; }
+
+/* 売上店舗のラジオリスト */
+.radioList{
+  border: 1px solid var(--inputBorder);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+}
+.radioRow{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+.radioRow:last-child{ border-bottom: none; }
+.radioRow input{
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
+.radioText{
+  font-weight: 800;
+  font-size: 18px;
+}
+.radioRow.isSelected{
+  background: #f2f2f2; /* 選択行の薄グレー */
+}
+
+/* ボタン（でかいやつ） */
+.btnPrimary{
+  width: 100%;
+  margin-top: 14px;
+  padding: 18px 14px;
+  font-size: 28px;
+  font-weight: 900;
+  border: none;
+  border-radius: 8px;
+  background: var(--btn);
+  color: var(--btnText);
+}
+.btnGhost{
+  width: 100%;
+  padding: 14px 12px;
+  font-size: 16px;
+  font-weight: 800;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+}
+
+/* messages */
+.msg{
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 1.4;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #fafafa;
+}
+.msgError{
+  border-color: #f3b5b5;
+  background: #fff5f5;
+  color: #b00020;
+}
+.hidden{ display: none; }
+
+/* confirm */
+.confirmTitle{
+  margin: 0 0 10px;
+  font-size: 18px;
+  font-weight: 900;
+}
+.confirmGrid{
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.confirmRow{
+  display:flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+.confirmRow:last-child{ border-bottom: none; }
+.confirmRow span:first-child{ color: #666; font-weight: 800; }
+.confirmRow span:last-child{ font-weight: 900; }
+.confirmRowNote span:last-child{
+  text-align:right;
+  overflow:hidden;
+  display:-webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+.confirmBtns{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+/* 画面が“拡大したまま”対策の補助（text-size-adjust固定） */
+@supports (-webkit-touch-callout: none) {
+  input, select, textarea { transform: translateZ(0); }
+}
