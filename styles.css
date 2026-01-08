@@ -34,6 +34,10 @@ body{
   padding: 14px 12px 26px;
 }
 
+.card{
+  padding: 10px;
+}
+
 /* label */
 .label{
   display: inline-flex;
