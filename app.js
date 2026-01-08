@@ -1,6 +1,6 @@
 // ========= 設定 =========
 // ここをあなたのGASに合わせて差し替え
-const API_URL = "https://script.google.com/macros/s/AKfycbxfqTHLImvQmUJ1ii-iyrbQlgwkPQL8cllE3CAWq_1GSrPKFc3tU5f45Mkbic3q1-XQyg/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbwrRW1pNNFtwDBguiEgdRZJNWXGlpLW1HeRz3OJpl5SRNCqIgCfMc_Wk1etkTC743cATA/exec";
 const API_TOKEN = "ppsales_2026_Jan_9$A9fKx!";
 
 const $ = (id) => document.getElementById(id);
