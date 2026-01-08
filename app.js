@@ -1,7 +1,7 @@
 // ========= 設定 =========
 // ここをあなたのGASに合わせて差し替え
-const API_URL = "PASTE_YOUR_GAS_WEBAPP_URL_HERE";
-const API_TOKEN = "CHANGE_ME_TOKEN";
+const API_URL = "https://script.google.com/macros/s/AKfycbxfqTHLImvQmUJ1ii-iyrbQlgwkPQL8cllE3CAWq_1GSrPKFc3tU5f45Mkbic3q1-XQyg/exec";
+const API_TOKEN = "ppsales_2026_Jan_9$A9fKx!";
 
 const $ = (id) => document.getElementById(id);
 
@@ -155,15 +155,46 @@ async function submit(){
   btn.textContent = "送信中…";
 
   try{
+        // JSONはやめて、フォーム形式でPOST（GASで一番通りやすい）
+    const params = new URLSearchParams();
+
+    // 認証
+    params.set("token", API_TOKEN);
+
+    // データ（GAS側 parseRequest_ が拾えるキー名で送る）
+    params.set("applicationType", d.applicationType);
+    params.set("name", d.name);
+    params.set("salesDate", d.salesDay);      // ←GASは salesDate を見る想定
+    params.set("store", d.store);
+
+    params.set("transferAmount", d.transferAmount);
+    params.set("transferDate", d.transferDay);
+    params.set("transferTo", d.transferTo);
+
+    params.set("salesCash", d.salesCash);
+    params.set("salesCredit", d.salesCredit);
+    params.set("salesQR", d.salesQR);
+
+    params.set("expCash", d.expCash);
+    params.set("expUpsider", d.expUpsider);
+    params.set("expSMBC", d.expSMBC);
+
+    params.set("shortageRequest", d.shortageRequest);
+    params.set("note", d.note);
+
     const res = await fetch(API_URL, {
       method: "POST",
-      headers: { "Content-Type":"application/json" },
-      body: JSON.stringify({ token: API_TOKEN, data: d })
+      body: params
+      // headers不要（ブラウザが自動で application/x-www-form-urlencoded を付ける）
     });
+
     const json = await res.json().catch(()=> ({}));
     if (!res.ok || json.ok !== true) throw new Error(json.error || "送信に失敗しました");
 
     show(msg, "送信完了しました。", false);
+
+    document.querySelector("form")?.reset?.(); // formタグがある場合
+    
   }catch(e){
     show(msg, "エラー：" + e.message, true);
   }finally{
