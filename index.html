@@ -3,421 +3,186 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>売上・送金フォーム</title>
-
-  <!-- STUDIO寄りのフォント（近似） -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
-
-  <style>
-    :root{
-      /* ここを調整すると一気に似せやすい */
-      --page-bg: #f6f7f8;
-      --card-bg: #ffffff;
-      --text: #111827;
-      --muted: #6b7280;
-      --border: rgba(17,24,39,.12);
-      --input-bg: #ffffff;
-      --input-border: rgba(17,24,39,.18);
-      --focus: rgba(59,130,246,.25);
-
-      --radius-card: 20px;
-      --radius-input: 14px;
-      --radius-btn: 16px;
-
-      --shadow-card: 0 12px 40px rgba(17,24,39,.10);
-      --shadow-input: 0 1px 0 rgba(17,24,39,.06);
-
-      --w: 375px;
-    }
-
-    html,body{ height:100%; }
-    body{
-      margin:0;
-      color:var(--text);
-      background: var(--page-bg);
-      font-family: Inter, "Noto Sans JP", system-ui, -apple-system, "Hiragino Kaku Gothic ProN", sans-serif;
-    }
-
-    .wrap{
-      max-width: var(--w);
-      margin: 0 auto;
-      padding: 16px 14px 24px;
-    }
-
-    .title{
-      font-size: 16px;
-      font-weight: 700;
-      letter-spacing: .2px;
-      margin: 6px 2px 12px;
-    }
-
-    .card{
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-card);
-      box-shadow: var(--shadow-card);
-      padding: 14px;
-    }
-
-    .section{
-      margin-top: 12px;
-    }
-    .section:first-child{ margin-top: 0; }
-
-    .secTitle{
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--muted);
-      letter-spacing: .4px;
-      margin: 10px 2px 8px;
-      text-transform: none;
-    }
-
-    .field{
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-      margin-bottom: 10px;
-    }
-
-    label{
-      font-size: 12px;
-      font-weight: 600;
-      color: rgba(17,24,39,.82);
-    }
-
-    input, select, textarea{
-      width:100%;
-      box-sizing:border-box;
-      font-size: 14px;
-      padding: 11px 12px;
-      background: var(--input-bg);
-      border: 1px solid var(--input-border);
-      border-radius: var(--radius-input);
-      box-shadow: var(--shadow-input);
-      outline: none;
-    }
-
-    input:focus, select:focus, textarea:focus{
-      border-color: rgba(59,130,246,.55);
-      box-shadow: 0 0 0 4px var(--focus);
-    }
-
-    textarea{
-      min-height: 78px;
-      resize: vertical;
-    }
-
-    .helper{
-      font-size: 12px;
-      color: var(--muted);
-      margin: 6px 2px 0;
-      line-height: 1.4;
-    }
-
-    .btns{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 12px;
-    }
-    .btns.one{ grid-template-columns: 1fr; }
-
-    button{
-      width:100%;
-      border: 0;
-      border-radius: var(--radius-btn);
-      padding: 12px 12px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor:pointer;
-    }
-    .primary{
-      background: #111827;
-      color: #fff;
-      box-shadow: 0 10px 24px rgba(17,24,39,.22);
-    }
-    .ghost{
-      background: rgba(17,24,39,.06);
-      color: #111827;
-    }
-
-    .hide{ display:none; }
-
-    /* 確認画面（スクショ1枚に収めるため密度高め） */
-    .kvs{ margin-top: 6px; }
-    .line{
-      display:flex;
-      justify-content:space-between;
-      gap: 10px;
-      padding: 6px 0;
-      border-bottom: 1px dashed rgba(17,24,39,.10);
-      font-size: 13px;
-    }
-    .line:last-child{ border-bottom:0; }
-    .mono{ font-variant-numeric: tabular-nums; }
-    .ellipsis2{
-      text-align:right;
-      overflow:hidden;
-      display:-webkit-box;
-      -webkit-line-clamp:2;
-      -webkit-box-orient:vertical;
-    }
-
-    .msg{
-      margin-top: 10px;
-      padding: 10px 12px;
-      border-radius: 14px;
-      font-size: 13px;
-      line-height: 1.4;
-      border: 1px solid rgba(17,24,39,.12);
-      background: rgba(255,255,255,.75);
-    }
-    .ok{ border-color: rgba(34,197,94,.25); background: rgba(34,197,94,.07); }
-    .err{ border-color: rgba(239,68,68,.25); background: rgba(239,68,68,.06); }
-  </style>
+  <meta name="format-detection" content="telephone=no,date=no,address=no,email=no" />
+  <title>送金フォーム</title>
+  <link rel="stylesheet" href="./styles.css" />
 </head>
 
 <body>
-  <div class="wrap">
-    <div class="title">売上・送金フォーム</div>
-
-    <!-- 入力 -->
-    <div id="stepInput" class="card">
+  <main class="page">
+    <!-- 入力画面 -->
+    <section id="stepInput" class="card">
+      <!-- 申請種別 -->
       <div class="field">
-        <label>氏名</label>
-        <input id="name" autocomplete="name" placeholder="例：しゅん" />
+        <label class="label">✏️ 申請種別 <span class="req">*</span></label>
+        <div class="selectWrap">
+          <select id="applicationType" required>
+            <option value="" selected>【要選択】 送金報告 or 送金依頼</option>
+            <option value="送金報告">送金報告</option>
+            <option value="送金依頼">送金依頼</option>
+          </select>
+          <span class="chev">▾</span>
+        </div>
       </div>
 
+      <!-- 氏名 / 売上日（2カラム） -->
+      <div class="grid2">
+        <div class="field">
+          <label class="label">🧍‍♂️ 氏名（本名） <span class="req">*</span></label>
+          <input id="name" type="text" placeholder="山田 太郎" autocomplete="name" required />
+        </div>
+        <div class="field">
+          <label class="label">💹 売上日 <span class="req">*</span></label>
+          <!-- STUDIO画面は "0105" 形式っぽいので text に -->
+          <input id="salesDay" type="text" inputmode="numeric" placeholder="0105（1/5の場合）" required />
+        </div>
+      </div>
+
+      <!-- 売上店舗（左）/ 送金情報（右） -->
+      <div class="grid2-top">
+        <div class="field">
+          <label class="label">🍺 売上店舗 <span class="req">*</span></label>
+
+          <div class="radioList" id="storeList">
+            <label class="radioRow">
+              <input type="radio" name="store" value="LO:ロカロ" required>
+              <span class="radioText">LO:ロカロ</span>
+            </label>
+            <label class="radioRow">
+              <input type="radio" name="store" value="EX:イーエックス">
+              <span class="radioText">EX:イーエックス</span>
+            </label>
+            <label class="radioRow">
+              <input type="radio" name="store" value="BZ:バズルーム">
+              <span class="radioText">BZ:バズルーム</span>
+            </label>
+            <label class="radioRow">
+              <input type="radio" name="store" value="KM:カラマス">
+              <span class="radioText">KM:カラマス</span>
+            </label>
+            <label class="radioRow">
+              <input type="radio" name="store" value="UT:うたのほそ道">
+              <span class="radioText">UT:うたのほそ道</span>
+            </label>
+            <label class="radioRow">
+              <input type="radio" name="store" value="OT:おとこりずむ">
+              <span class="radioText">OT:おとこりずむ</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="stack">
+          <div class="field">
+            <label class="label">🏦 送金額 <span class="req">*</span></label>
+            <input id="transferAmount" type="text" inputmode="numeric" placeholder="5,000" required />
+          </div>
+
+          <div class="field">
+            <label class="label">🏦 送金日 <span class="req">*</span></label>
+            <input id="transferDay" type="text" inputmode="numeric" placeholder="0110（1/10の場合）" required />
+          </div>
+
+          <div class="field">
+            <label class="label">🏦 送金先 <span class="req">*</span></label>
+            <div class="selectWrap">
+              <select id="transferTo" required>
+                <option value="" selected>【要選択】</option>
+                <option>GMOあおぞら</option>
+                <option>PayPay銀行</option>
+                <option>三井住友</option>
+              </select>
+              <span class="chev">▾</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 売上①×経費①（2カラム） -->
+      <div class="grid2">
+        <div class="field">
+          <label class="label">💹 売上①（現金） <span class="req">*</span></label>
+          <input id="salesCash" type="text" inputmode="numeric" placeholder="5,000" required />
+        </div>
+        <div class="field">
+          <label class="label">👛 経費①（現金） <span class="req">*</span></label>
+          <input id="expCash" type="text" inputmode="numeric" placeholder="5,000" required />
+        </div>
+      </div>
+
+      <!-- 売上②×経費② -->
+      <div class="grid2">
+        <div class="field">
+          <label class="label">💹 売上②（売掛/クレカ） <span class="req">*</span></label>
+          <input id="salesCredit" type="text" inputmode="numeric" placeholder="5,000" required />
+        </div>
+        <div class="field">
+          <label class="label">👛 経費②（UPSIDER） <span class="req">*</span></label>
+          <input id="expUpsider" type="text" inputmode="numeric" placeholder="5,000" required />
+        </div>
+      </div>
+
+      <!-- 売上③×経費③ -->
+      <div class="grid2">
+        <div class="field">
+          <label class="label">💹 売上③（売掛/QR） <span class="req">*</span></label>
+          <input id="salesQR" type="text" inputmode="numeric" placeholder="5,000" required />
+        </div>
+        <div class="field">
+          <label class="label">👛 経費③（三井住友） <span class="req">*</span></label>
+          <input id="expSMBC" type="text" inputmode="numeric" placeholder="5,000" required />
+        </div>
+      </div>
+
+      <!-- 不足金申請 -->
       <div class="field">
-        <label>売上日</label>
-        <input id="salesDate" type="date" />
+        <label class="label">🏦 送金申請額（不足金が発生した場合）</label>
+        <input id="shortageRequest" type="text" inputmode="numeric" placeholder="（任意）" />
       </div>
 
+      <!-- 備考 -->
       <div class="field">
-        <label>🍺 売上店舗</label>
-        <select id="store">
-          <option value="" selected>選択してください</option>
-          <option>ロカロ</option>
-          <option>イーエックス</option>
-          <option>バズルーム</option>
-          <option>うたのほそ道</option>
-          <option>カラオケマスター</option>
-        </select>
+        <label class="label">📝 備考欄 <span class="req">*</span></label>
+        <textarea id="note" placeholder="Your message" required></textarea>
       </div>
 
-      <div class="secTitle">💹 売上</div>
-      <div class="field"><label>現金</label><input id="salesCash" inputmode="numeric" placeholder="例：10000" /></div>
-      <div class="field"><label>売掛金/クレカ</label><input id="salesCredit" inputmode="numeric" placeholder="例：8000" /></div>
-      <div class="field"><label>売掛金/QR</label><input id="salesQR" inputmode="numeric" placeholder="例：2000" /></div>
+      <button id="toConfirm" class="btnPrimary" type="button">確認画面へ</button>
 
-      <div class="secTitle">👛 経費</div>
-      <div class="field"><label>現金</label><input id="expCash" inputmode="numeric" placeholder="例：1200" /></div>
-      <div class="field"><label>UPSIDERカード</label><input id="expUpsider" inputmode="numeric" placeholder="例：3000" /></div>
-      <div class="field"><label>三井住友カード</label><input id="expSMBC" inputmode="numeric" placeholder="例：0" /></div>
+      <p id="inputError" class="msg msgError hidden"></p>
+    </section>
 
-      <div class="secTitle">🏦 送金</div>
-      <div class="field"><label>送金額</label><input id="transferAmount" inputmode="numeric" placeholder="例：15800" /></div>
-      <div class="field"><label>送金日</label><input id="transferDate" type="date" /></div>
-      <div class="field"><label>送金先</label><input id="transferTo" placeholder="例：GMOあおぞら" /></div>
-      <div class="field"><label>送金申請額（不足金が発生した場合）</label><input id="shortageRequest" inputmode="numeric" placeholder="例：2000（なければ空欄）" /></div>
+    <!-- 確認画面 -->
+    <section id="stepConfirm" class="card hidden">
+      <h2 class="confirmTitle">確認</h2>
 
-      <div class="field">
-        <label>備考欄</label>
-        <textarea id="note" placeholder="例：氷代を経費で精算"></textarea>
+      <div class="confirmGrid">
+        <div class="confirmRow"><span>申請種別</span><span id="c_applicationType"></span></div>
+        <div class="confirmRow"><span>氏名</span><span id="c_name"></span></div>
+        <div class="confirmRow"><span>売上日</span><span id="c_salesDay"></span></div>
+        <div class="confirmRow"><span>売上店舗</span><span id="c_store"></span></div>
+        <div class="confirmRow"><span>送金額</span><span id="c_transferAmount"></span></div>
+        <div class="confirmRow"><span>送金日</span><span id="c_transferDay"></span></div>
+        <div class="confirmRow"><span>送金先</span><span id="c_transferTo"></span></div>
+
+        <div class="confirmRow"><span>売上①</span><span id="c_salesCash"></span></div>
+        <div class="confirmRow"><span>経費①</span><span id="c_expCash"></span></div>
+        <div class="confirmRow"><span>売上②</span><span id="c_salesCredit"></span></div>
+        <div class="confirmRow"><span>経費②</span><span id="c_expUpsider"></span></div>
+        <div class="confirmRow"><span>売上③</span><span id="c_salesQR"></span></div>
+        <div class="confirmRow"><span>経費③</span><span id="c_expSMBC"></span></div>
+
+        <div class="confirmRow" id="c_shortageRow"><span>不足金申請</span><span id="c_shortageRequest"></span></div>
+        <div class="confirmRow confirmRowNote"><span>備考</span><span id="c_note"></span></div>
       </div>
 
-      <div class="helper">送信前に確認画面が表示されます（スクショ1枚想定）</div>
-
-      <div class="btns one">
-        <button class="primary" id="toConfirm">確認画面へ</button>
+      <div class="confirmBtns">
+        <button id="backToEdit" class="btnGhost" type="button">修正する</button>
+        <button id="submitBtn" class="btnPrimary" type="button">送信する</button>
       </div>
 
-      <div id="inputMsg" class="msg hide"></div>
-    </div>
+      <p id="confirmMsg" class="msg hidden"></p>
+    </section>
+  </main>
 
-    <!-- 確認 -->
-    <div id="stepConfirm" class="card hide">
-      <div class="secTitle">【確認】</div>
-      <div class="kvs">
-        <div class="line"><span>氏名</span><span class="mono" id="c_name"></span></div>
-        <div class="line"><span>売上日</span><span class="mono" id="c_salesDate"></span></div>
-        <div class="line"><span>店舗</span><span id="c_store"></span></div>
-      </div>
-
-      <div class="secTitle">💹 売上</div>
-      <div class="kvs">
-        <div class="line"><span>現金</span><span class="mono" id="c_salesCash"></span></div>
-        <div class="line"><span>クレカ</span><span class="mono" id="c_salesCredit"></span></div>
-        <div class="line"><span>QR</span><span class="mono" id="c_salesQR"></span></div>
-      </div>
-
-      <div class="secTitle">👛 経費</div>
-      <div class="kvs">
-        <div class="line"><span>現金</span><span class="mono" id="c_expCash"></span></div>
-        <div class="line"><span>UPSIDER</span><span class="mono" id="c_expUpsider"></span></div>
-        <div class="line"><span>三井住友</span><span class="mono" id="c_expSMBC"></span></div>
-      </div>
-
-      <div class="secTitle">🏦 送金</div>
-      <div class="kvs">
-        <div class="line"><span>送金額</span><span class="mono" id="c_transferAmount"></span></div>
-        <div class="line"><span>送金日</span><span class="mono" id="c_transferDate"></span></div>
-        <div class="line"><span>送金先</span><span id="c_transferTo"></span></div>
-        <div class="line" id="c_shortageRow"><span>不足金申請</span><span class="mono" id="c_shortageRequest"></span></div>
-        <div class="line"><span>備考</span><span class="ellipsis2" id="c_note"></span></div>
-      </div>
-
-      <div class="btns">
-        <button class="ghost" id="backToEdit">修正する</button>
-        <button class="primary" id="submitBtn">送信する</button>
-      </div>
-
-      <div id="confirmMsg" class="msg hide"></div>
-    </div>
-  </div>
-
-<script>
-  // ========= 設定 =========
-  const API_URL = "PASTE_YOUR_GAS_WEBAPP_URL_HERE";
-  const API_TOKEN = "CHANGE_ME_TOKEN";
-
-  // ========= ユーティリティ =========
-  const yen = (n) => "¥" + (Number(n||0)).toLocaleString("ja-JP");
-  const toNum = (v) => {
-    if (v == null) return 0;
-    const s = String(v).replace(/[^\d\-]/g, "");
-    if (s === "" || s === "-") return 0;
-    return Number(s);
-  };
-  const el = (id) => document.getElementById(id);
-
-  function showMsg(target, ok, text){
-    target.classList.remove("hide","ok","err");
-    target.classList.add(ok ? "ok" : "err");
-    target.textContent = text;
-  }
-  function hideMsg(target){
-    target.classList.add("hide");
-    target.textContent = "";
-    target.classList.remove("ok","err");
-  }
-
-  function collect(){
-    return {
-      name: el("name").value.trim(),
-      salesDate: el("salesDate").value,
-      store: el("store").value,
-
-      salesCash: toNum(el("salesCash").value),
-      salesCredit: toNum(el("salesCredit").value),
-      salesQR: toNum(el("salesQR").value),
-
-      expCash: toNum(el("expCash").value),
-      expUpsider: toNum(el("expUpsider").value),
-      expSMBC: toNum(el("expSMBC").value),
-
-      transferAmount: toNum(el("transferAmount").value),
-      transferDate: el("transferDate").value,
-      transferTo: el("transferTo").value.trim(),
-      shortageRequest: toNum(el("shortageRequest").value),
-
-      note: el("note").value.trim()
-    };
-  }
-
-  function validate(d){
-    if (!d.name) return "氏名を入力してください";
-    if (!d.salesDate) return "売上日を選択してください";
-    if (!d.store) return "売上店舗を選択してください";
-    return null;
-  }
-
-  function fillConfirm(d){
-    el("c_name").innerText = d.name;
-    el("c_salesDate").innerText = d.salesDate || "—";
-    el("c_store").innerText = d.store;
-
-    el("c_salesCash").innerText = yen(d.salesCash);
-    el("c_salesCredit").innerText = yen(d.salesCredit);
-    el("c_salesQR").innerText = yen(d.salesQR);
-
-    el("c_expCash").innerText = yen(d.expCash);
-    el("c_expUpsider").innerText = yen(d.expUpsider);
-    el("c_expSMBC").innerText = yen(d.expSMBC);
-
-    el("c_transferAmount").innerText = yen(d.transferAmount);
-    el("c_transferDate").innerText = d.transferDate || "—";
-    el("c_transferTo").innerText = d.transferTo || "—";
-
-    if (d.shortageRequest){
-      el("c_shortageRow").style.display = "flex";
-      el("c_shortageRequest").innerText = yen(d.shortageRequest);
-    } else {
-      el("c_shortageRow").style.display = "none";
-      el("c_shortageRequest").innerText = "";
-    }
-
-    el("c_note").innerText = d.note || "—";
-  }
-
-  function gotoConfirm(){
-    const d = collect();
-    const err = validate(d);
-    const msg = el("inputMsg");
-    hideMsg(msg);
-    if (err) return showMsg(msg, false, err);
-
-    fillConfirm(d);
-    el("stepInput").classList.add("hide");
-    el("stepConfirm").classList.remove("hide");
-  }
-
-  function backToEdit(){
-    hideMsg(el("confirmMsg"));
-    el("stepConfirm").classList.add("hide");
-    el("stepInput").classList.remove("hide");
-  }
-
-  async function submit(){
-    const d = collect();
-    const err = validate(d);
-    const msg = el("confirmMsg");
-    hideMsg(msg);
-    if (err) return showMsg(msg, false, err);
-
-    if (!API_URL || API_URL.includes("PASTE_YOUR_GAS_WEBAPP_URL_HERE")){
-      return showMsg(msg, false, "API_URL が未設定です（GAS Web App URL を貼ってください）");
-    }
-
-    const btn = el("submitBtn");
-    btn.disabled = true;
-    const prev = btn.textContent;
-    btn.textContent = "送信中…";
-
-    try{
-      const res = await fetch(API_URL, {
-        method: "POST",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify({ token: API_TOKEN, data: d })
-      });
-      const json = await res.json().catch(()=> ({}));
-      if (!res.ok || json.ok !== true) throw new Error(json.error || "送信に失敗しました");
-
-      showMsg(msg, true, "送信完了しました。ありがとうございました。");
-    }catch(e){
-      showMsg(msg, false, "エラー： " + e.message);
-    }finally{
-      btn.disabled = false;
-      btn.textContent = prev;
-    }
-  }
-
-  el("toConfirm").addEventListener("click", (e)=>{ e.preventDefault(); gotoConfirm(); });
-  el("backToEdit").addEventListener("click", (e)=>{ e.preventDefault(); backToEdit(); });
-  el("submitBtn").addEventListener("click", (e)=>{ e.preventDefault(); submit(); });
-</script>
+  <script src="./app.js"></script>
 </body>
 </html>
