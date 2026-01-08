@@ -63,15 +63,6 @@ function validate(d){
   if (!d.salesDay) return "売上日を入力してください";
   if (!d.store) return "売上店舗を選択してください";
   if (!d.transferAmount) return "送金額を入力してください";
-  if (!d.transferDay) return "送金日を入力してください";
-  if (!d.transferTo) return "送金先を選択してください";
-  if (!d.salesCash) return "売上①（現金）を入力してください";
-  if (!d.expCash) return "経費①（現金）を入力してください";
-  if (!d.salesCredit) return "売上②（売掛/クレカ）を入力してください";
-  if (!d.expUpsider) return "経費②（UPSIDER）を入力してください";
-  if (!d.salesQR) return "売上③（売掛/QR）を入力してください";
-  if (!d.expSMBC) return "経費③（三井住友）を入力してください";
-  if (!d.note) return "備考欄を入力してください";
   return null;
 }
 
